@@ -5,36 +5,59 @@
 
 #include "parameter.h"
 
-Parameter::Data::Data(const QString &_name, Parameter::Type _type, bool _required, const QString &_description)
-    : QSharedData()
-    , name{_name}
-    , description{_description}
-    , type{_type}
-    , required{_required}
+#include <QCoreApplication>
+
+Parameter::Parameter(const QString &name, QString description, Required required, QObject *parent)
+    : QObject{parent}
+    , m_name{name}
+    , m_description{std::move(description)}
+    , m_required{required}
 {
 }
 
-Parameter::Parameter(const QString &name, Type type, bool required, const QString &description)
-    : data{new Data{name, type, required, description}}
+Parameter::Parameter(const QString &name, QString description, Required required, const std::pair<QString, QString> &otherField, QObject *parent)
+    : QObject{parent}
+    , m_name{name}
+    , m_description{std::move(description)}
+    , m_required{required}
+    , m_otherField{otherField.first}
+    , m_otherValue{otherField.second}
 {
 }
 
 QString Parameter::name() const noexcept
 {
-    return data->name;
-}
-
-Parameter::Type Parameter::type() const noexcept
-{
-    return data->type;
-}
-
-bool Parameter::isRequired() const noexcept
-{
-    return data->required;
+    return m_name;
 }
 
 QString Parameter::description() const noexcept
 {
-    return data->description;
+    return m_description;
+}
+
+Parameter::Required Parameter::required() const noexcept
+{
+    return m_required;
+}
+
+bool Parameter::check(const QMap<QString, QString> &data) const
+{
+    if (m_required == Required::Yes) {
+        if (data.value(m_name).isEmpty()) {
+            qCritical().noquote() << qtTrId("Missing parameter %1").arg(name());
+            return false;
+        }
+    } else if (m_required == Required::IfOtherFieldContains ||
+               m_required == Required::IfOtherFieldNotConains) {
+
+        const bool isRequired = m_required == Required::IfOtherFieldContains
+                ? data.value(m_otherField).contains(m_otherValue)
+                : !data.value(m_otherField).contains(m_otherValue);
+        if (isRequired && data.value(m_name).isEmpty()) {
+            qCritical().noquote() << qtTrId("Missing parameter %1").arg(name());
+            return false;
+        }
+    }
+
+    return true;
 }

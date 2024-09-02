@@ -1,4 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: (C) 2024 Matthias Fehring / www.huessenbergnetz.de
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 #include "nextcloudusers.h"
+
+#include "stringparameter.h"
 
 #include <QCommandLineParser>
 #include <QDebug>
@@ -23,19 +30,20 @@ Service::Requirements NextcloudUsers::requirements() const
     return reqs;
 }
 
-void NextcloudUsers::processData(const std::pair<QStringList, QList<QMap<QString, QString>>> &data)
+void NextcloudUsers::processData(const DataPair &data)
 {
     qDebug() << "Headers:" << data.first;
     qDebug() << "Data:" << data.second;
 }
 
-QList<Parameter> NextcloudUsers::parameters() const
+QList<Parameter*> NextcloudUsers::parameters()
 {
-    QList<Parameter> lst;
-
-    auto &ref = lst.emplace_back(u"uid"_s, Parameter::Type::String, true, qtTrId("fskep_ncu_param_desc_uid"));
-
-    return lst;
+    return {
+        //% "Account ID used to login (must only contain a-z, A-Z, 0-9, -, _ and @)"
+        new StringParameter{u"uid"_s, qtTrId("fskep_ncusers_param_desc_uid"), Parameter::Required::Yes, u"^[a-zA-Z0-9_@\\.-]+$"_s, this},
+        //% "Display name for the new user. Can conain any character."
+        new StringParameter{u"displayName"_s, qtTrId("fskep_ncusers_param_desc_displayName"), Parameter::Required::No, {}, this}
+    };
 }
 
 #include "moc_nextcloudusers.cpp"

@@ -1,5 +1,10 @@
-#ifndef NEXTCLOUDUSERS_H
-#define NEXTCLOUDUSERS_H
+/*
+ * SPDX-FileCopyrightText: (C) 2024 Matthias Fehring / www.huessenbergnetz.de
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+#ifndef FSKEP_NEXTCLOUDUSERS_H
+#define FSKEP_NEXTCLOUDUSERS_H
 
 #include "service.h"
 
@@ -13,8 +18,8 @@ public:
 protected:
     void initParameters() override;
     [[nodiscard]] Requirements requirements() const override;
-    void processData(const std::pair<QStringList, QList<QMap<QString, QString>>> &data) override;
-    QList<Parameter> parameters() const override;
+    void processData(const DataPair &data) override;
+    QList<Parameter*> parameters() override;
 };
 
-#endif // NEXTCLOUDUSERS_H
+#endif // FSKEP_NEXTCLOUDUSERS_H

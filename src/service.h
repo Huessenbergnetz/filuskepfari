@@ -6,20 +6,21 @@
 #ifndef FSKEP_SERVICE_H
 #define FSKEP_SERVICE_H
 
-#include "parameter.h"
-
 #include <QFileInfo>
 #include <QObject>
 #include <QList>
 #include <QUrl>
 
 class QCommandLineParser;
+class Parameter;
 
 class Service : public QObject
 {
     Q_OBJECT
 public:
-    using DataPair = std::pair<QStringList, QList<QMap<QString, QString>>>;
+    using Row = QMap<QString,QString>;
+    using RowList = QList<Row>;
+    using DataPair = std::pair<QStringList, RowList>;
 
     enum class Requirement {
         Nothing     = 0x0000,
@@ -40,19 +41,18 @@ protected:
     [[nodiscard]] QCommandLineParser *parser() const;
     virtual void initParameters() = 0;
     [[nodiscard]] virtual Requirements requirements() const = 0;
-    virtual void processData(const std::pair<QStringList, QList<QMap<QString, QString>>> &data) = 0;
-    virtual QList<Parameter> parameters() const = 0;
+    virtual void processData(const DataPair &data) = 0;
+    [[nodiscard]] virtual QList<Parameter*> parameters() = 0;
 
 private slots:
     void doStart();
 
 private:
     bool checkRequirements();
-    [[nodiscard]] std::pair<QStringList, QList<QMap<QString, QString>>> readInputFile() const;
-    [[nodiscard]] std::pair<QStringList, QList<QMap<QString, QString>>> readInputCsvFile() const;
-    bool checkData(const DataPair &data) const;
+    [[nodiscard]] DataPair readInputFile() const;
+    [[nodiscard]] DataPair readInputCsvFile() const;
+    [[nodiscard]] bool checkData(const DataPair &data);
 
-    QList<Parameter> m_parameters;
     QFileInfo m_inputFileInfo;
     QString m_inputFileMimeType;
     QString m_username;

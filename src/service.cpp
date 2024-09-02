@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#include "errorcodes.h"
 #include "service.h"
+
+#include "errorcodes.h"
+#include "parameter.h"
 
 #include <QCommandLineParser>
 #include <QCoreApplication>
@@ -183,18 +185,31 @@ std::pair<QStringList,QList<QMap<QString,QString>>> Service::readInputCsvFile() 
     return std::make_pair(headers, rows);
 }
 
-bool Service::checkData(const DataPair &data) const
+bool Service::checkData(const DataPair &data)
 {
-    const QList<Parameter> params = parameters();
+    const QList<Parameter*> params = parameters();
 
     const QStringList headers = data.first;
 
-    for (const Parameter &p : params) {
-        if (p.isRequired() && !headers.contains(p.name())) {
-            qCritical().noquote() << qtTrId("Required parameter %1 is not available in the header data.").arg(p.name());
+    for (const auto p : params) {
+        if (p->required() == Parameter::Required::Yes && !headers.contains(p->name())) {
+            qCritical().noquote() << qtTrId("Required parameter “%1” is not available in the header data.").arg(p->name());
             QCoreApplication::exit(static_cast<int>(Fskep::ErrCode::DataErr));
             return false;
         }
+    }
+
+    const RowList rows = data.second;
+
+    int line = 0;
+    for (const Row &row : rows) {
+        for (const auto p : params) {
+            if (!p->check(row)) {
+                qCritical().noquote() << qtTrId("Invalid data for column “%1” at line %2.").arg(p->name(), QString::number(line));
+                return false;
+            }
+        }
+        line++;
     }
 
     return true;

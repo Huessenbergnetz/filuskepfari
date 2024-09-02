@@ -13,6 +13,8 @@ target_sources(filuskepfari
         service.h
         nextcloudusers.cpp
         nextcloudusers.h
+        stringparameter.cpp
+        stringparameter.h
 )
 
 target_link_libraries(filuskepfari

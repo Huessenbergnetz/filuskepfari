@@ -112,11 +112,15 @@ Supported types: %2</source>
         <oldsource>Data at line %1 has not the same content size as the number of header fields. Expected: %2, Actual: %3</oldsource>
         <translation type="unfinished"></translation>
     </message>
-    <message id="fskep_ncu_param_desc_uid">
+    <message id="Required parameter %1 is not available in the header data.">
         <source></source>
         <translation type="unfinished"></translation>
     </message>
-    <message id="Required parameter %1 is not available in the header data.">
+    <message id="fskep_ncusers_param_desc_uid">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="Invalid data for column %1 at line %2.">
         <source></source>
         <translation type="unfinished"></translation>
     </message>
