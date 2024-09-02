@@ -112,15 +112,35 @@ Supported types: %2</source>
         <oldsource>Data at line %1 has not the same content size as the number of header fields. Expected: %2, Actual: %3</oldsource>
         <translation type="unfinished"></translation>
     </message>
-    <message id="Required parameter %1 is not available in the header data.">
-        <source></source>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="fskep_ncusers_param_desc_uid">
+        <source>Account ID used to login (must only contain a-z, A-Z, 0-9, -, _ and @)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="Missing parameter %1">
         <source></source>
         <translation type="unfinished"></translation>
     </message>
-    <message id="Invalid data for column %1 at line %2.">
+    <message id="Required parameter “%1” is not available in the header data.">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="Invalid data for column “%1” at line %2.">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_param_desc_displayName">
+        <source>Display name for the new user. Can conain any character.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncurses_param_desc_email">
+        <source>When set, users may register using the default email verification workflow.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="Parameter “%1” does not match regular expression pattern “%2”">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="Parameter “%1“ is not a valid email address.">
         <source></source>
         <translation type="unfinished"></translation>
     </message>

@@ -5,6 +5,7 @@
 
 #include "nextcloudusers.h"
 
+#include "emailparameter.h"
 #include "stringparameter.h"
 
 #include <QCommandLineParser>
@@ -42,7 +43,9 @@ QList<Parameter*> NextcloudUsers::parameters()
         //% "Account ID used to login (must only contain a-z, A-Z, 0-9, -, _ and @)"
         new StringParameter{u"uid"_s, qtTrId("fskep_ncusers_param_desc_uid"), Parameter::Required::Yes, u"^[a-zA-Z0-9_@\\.-]+$"_s, this},
         //% "Display name for the new user. Can conain any character."
-        new StringParameter{u"displayName"_s, qtTrId("fskep_ncusers_param_desc_displayName"), Parameter::Required::No, {}, this}
+        new StringParameter{u"displayName"_s, qtTrId("fskep_ncusers_param_desc_displayName"), Parameter::Required::No, {}, this},
+        //% "When set, users may register using the default email verification workflow."
+        new EmailParameter{u"email"_s, qtTrId("fskep_ncurses_param_desc_email"), Parameter::Required::No, this}
     };
 }
 

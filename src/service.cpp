@@ -47,6 +47,7 @@ void Service::doStart()
     }
 
     if (!checkData(data)) {
+        QCoreApplication::exit(static_cast<int>(Fskep::ErrCode::DataErr));
         return;
     }
 
@@ -194,14 +195,13 @@ bool Service::checkData(const DataPair &data)
     for (const auto p : params) {
         if (p->required() == Parameter::Required::Yes && !headers.contains(p->name())) {
             qCritical().noquote() << qtTrId("Required parameter “%1” is not available in the header data.").arg(p->name());
-            QCoreApplication::exit(static_cast<int>(Fskep::ErrCode::DataErr));
             return false;
         }
     }
 
     const RowList rows = data.second;
 
-    int line = 0;
+    int line = 1;
     for (const Row &row : rows) {
         for (const auto p : params) {
             if (!p->check(row)) {

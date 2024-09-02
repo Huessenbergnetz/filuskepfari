@@ -15,6 +15,8 @@ target_sources(filuskepfari
         nextcloudusers.h
         stringparameter.cpp
         stringparameter.h
+        emailparameter.cpp
+        emailparameter.h
 )
 
 target_link_libraries(filuskepfari
