@@ -193,7 +193,7 @@ bool Service::checkData(const DataPair &data)
     const QStringList headers = data.first;
 
     for (const auto p : params) {
-        if (p->required() == Parameter::Required::Yes && !headers.contains(p->name())) {
+        if (p->isRequired() && !headers.contains(p->name())) {
             qCritical().noquote() << qtTrId("Required parameter “%1” is not available in the header data.").arg(p->name());
             return false;
         }

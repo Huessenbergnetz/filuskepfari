@@ -14,8 +14,7 @@ class EmailParameter : public Parameter
 {
     Q_OBJECT
 public:
-    EmailParameter(const QString &name, QString description, Required required, QObject *parent = nullptr);
-    EmailParameter(const QString &name, QString description, Required required, const std::pair<QString,QString> &otherField, QObject *parent = nullptr);
+    EmailParameter(const QString &name, QString description, bool isRequired, QObject *parent = nullptr);
     ~EmailParameter() override = default;
 
     [[nodiscard]] bool check(const QMap<QString,QString> &data) const override;

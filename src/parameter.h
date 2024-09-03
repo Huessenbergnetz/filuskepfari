@@ -13,22 +13,14 @@ class Parameter : public QObject
 {
     Q_OBJECT
 public:
-    enum class Required {
-        No,
-        Yes,
-        IfOtherFieldContains,
-        IfOtherFieldNotConains
-    };
-
-    Parameter(const QString &name, QString description, Required required, QObject *parent = nullptr);
-    Parameter(const QString &name, QString description, Required required, const std::pair<QString,QString> &otherField, QObject *parent = nullptr);
+    Parameter(const QString &name, QString description, bool isRequired, QObject *parent = nullptr);
     ~Parameter() override = default;
 
     [[nodiscard]] QString name() const noexcept;
 
     [[nodiscard]] QString description() const noexcept;
 
-    [[nodiscard]] Required required() const noexcept;
+    [[nodiscard]] bool isRequired() const noexcept;
 
     [[nodiscard]] virtual bool check(const QMap<QString, QString> &data) const;
 
@@ -37,7 +29,7 @@ private:
     QString m_description;
     QString m_otherField;
     QString m_otherValue;
-    Parameter::Required m_required{Parameter::Required::No};
+    bool m_isRequired{false};
 
     Q_DISABLE_COPY(Parameter)
 };

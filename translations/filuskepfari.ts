@@ -116,10 +116,6 @@ Supported types: %2</source>
         <source>Account ID used to login (must only contain a-z, A-Z, 0-9, -, _ and @)</source>
         <translation type="unfinished"></translation>
     </message>
-    <message id="Missing parameter %1">
-        <source></source>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="Required parameter “%1” is not available in the header data.">
         <source></source>
         <translation type="unfinished"></translation>

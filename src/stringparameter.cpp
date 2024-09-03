@@ -8,16 +8,8 @@
 #include <QDebug>
 #include <QRegularExpression>
 
-StringParameter::StringParameter(const QString &name, QString description, Required required, const QString &pattern, QObject *parent)
-    : Parameter{name, description, required, parent}
-{
-    if (!pattern.isEmpty()) {
-        regex = std::make_unique<QRegularExpression>(pattern);
-    }
-}
-
-StringParameter::StringParameter(const QString &name, QString description, Required required, const std::pair<QString,QString> &otherField, const QString &pattern, QObject *parent)
-    : Parameter{name, description, required, otherField, parent}
+StringParameter::StringParameter(const QString &name, QString description, bool isRequired, const QString &pattern, QObject *parent)
+    : Parameter{name, description, isRequired, parent}
 {
     if (!pattern.isEmpty()) {
         regex = std::make_unique<QRegularExpression>(pattern);

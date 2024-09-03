@@ -9,14 +9,8 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-EmailParameter::EmailParameter(const QString &name, QString description, Required required, QObject *parent)
-    : Parameter{name, description, required, parent}
-{
-    init();
-}
-
-EmailParameter::EmailParameter(const QString &name, QString description, Required required, const std::pair<QString,QString> &otherField, QObject *parent)
-    : Parameter{name, description, required, otherField, parent}
+EmailParameter::EmailParameter(const QString &name, QString description, bool isRequired, QObject *parent)
+    : Parameter{name, description, isRequired, parent}
 {
     init();
 }
