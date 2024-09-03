@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
     }
 
     const QStringList supportedServices{u"nextcloudusers"_s};
-    const QStringList supportedMimeTypes{u"text/csv"_s};
 
     QCommandLineParser parser;
 
@@ -57,6 +56,16 @@ int main(int argc, char *argv[])
                              //% "file"
                              qtTrId("fskep_cli_opt_input_val"));
     parser.addOption(input);
+
+    QCommandLineOption listSepOpt(QStringList{u"l"_s, u"list-separator"_s},
+                                  //: CLI option description
+                                  //% "Separator for lists.
+                                  qtTrId("fskep_cli_opt_listsep_desc"),
+                                  //: CLI option value name
+                                  //% "separator"
+                                  qtTrId("fskep_cli_opt_listsep_va"),
+                                  u"|"_s);
+    parser.addOption(listSepOpt);
 
     QCommandLineOption password(QStringList{u"p"_s, u"password"_s},
                                 //: CLI option description

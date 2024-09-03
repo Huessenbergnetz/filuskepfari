@@ -39,6 +39,7 @@ public:
 
 protected:
     [[nodiscard]] QCommandLineParser *parser() const;
+    [[nodiscard]] QString listSeparator() const;
     virtual void initParameters() = 0;
     [[nodiscard]] virtual Requirements requirements() const = 0;
     virtual void processData(const DataPair &data) = 0;

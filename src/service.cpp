@@ -134,6 +134,11 @@ QCommandLineParser* Service::parser() const
     return m_parser;
 }
 
+QString Service::listSeparator() const
+{
+    return m_parser->value(u"list-separator"_s);
+}
+
 std::pair<QStringList,QList<QMap<QString,QString>>> Service::readInputFile() const
 {
     if (m_inputFileMimeType == "text/csv"_L1) {
