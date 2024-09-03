@@ -30,7 +30,7 @@ bool Parameter::isRequired() const noexcept
     return m_isRequired;
 }
 
-bool Parameter::check(const QMap<QString, QString> &data) const
+bool Parameter::check(const Row &data) const
 {
     if (m_isRequired && data.value(m_name).isEmpty()) {
         return false;

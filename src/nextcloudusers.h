@@ -7,6 +7,9 @@
 #define FSKEP_NEXTCLOUDUSERS_H
 
 #include "service.h"
+#include "fskep_globals.h"
+
+using namespace Fskep;
 
 class NextcloudUsers : public Service
 {

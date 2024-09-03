@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#include "errorcodes.h"
+#include "fskep_globals.h"
 #include "nextcloudusers.h"
 
 #include <QCommandLineOption>

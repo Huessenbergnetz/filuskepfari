@@ -6,7 +6,7 @@ add_executable(filuskepfari)
 target_sources(filuskepfari
     PRIVATE
         main.cpp
-        errorcodes.h
+        fskep_globals.h
         parameter.cpp
         parameter.h
         service.cpp

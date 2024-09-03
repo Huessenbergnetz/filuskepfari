@@ -6,6 +6,8 @@
 #ifndef FSKEP_SERVICE_H
 #define FSKEP_SERVICE_H
 
+#include "fskep_globals.h"
+
 #include <QFileInfo>
 #include <QObject>
 #include <QList>
@@ -14,14 +16,12 @@
 class QCommandLineParser;
 class Parameter;
 
+using namespace Fskep;
+
 class Service : public QObject
 {
     Q_OBJECT
 public:
-    using Row = QMap<QString,QString>;
-    using RowList = QList<Row>;
-    using DataPair = std::pair<QStringList, RowList>;
-
     enum class Requirement {
         Nothing     = 0x0000,
         RemoteUrl   = 0x0001,

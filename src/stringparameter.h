@@ -8,6 +8,8 @@
 
 #include "parameter.h"
 
+#include "fskep_globals.h"
+
 class QRegularExpression;
 
 class StringParameter : public Parameter
@@ -17,7 +19,7 @@ public:
     StringParameter(const QString &name, QString description, bool isRequired, const QString &pattern = {}, QObject *parent = nullptr);
     ~StringParameter() override = default;
 
-    [[nodiscard]] bool check(const QMap<QString,QString> &data) const override;
+    [[nodiscard]] bool check(const Row &row) const override;
 
 private:
     std::unique_ptr<QRegularExpression> regex{nullptr};

@@ -15,13 +15,13 @@ EmailParameter::EmailParameter(const QString &name, QString description, bool is
     init();
 }
 
-bool EmailParameter::check(const QMap<QString,QString> &data) const
+bool EmailParameter::check(const Row &row) const
 {
-    if (!Parameter::check(data)) {
+    if (!Parameter::check(row)) {
         return false;
     }
 
-    const QString value = data.value(name());
+    const QString value = row.value(name());
 
     if (value.isEmpty()) {
         return true;

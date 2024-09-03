@@ -16,13 +16,13 @@ StringParameter::StringParameter(const QString &name, QString description, bool 
     }
 }
 
-bool StringParameter::check(const QMap<QString, QString> &data) const
+bool StringParameter::check(const Row &row) const
 {
-    if (!Parameter::check(data)) {
+    if (!Parameter::check(row)) {
         return false;
     }
 
-    const QString value = data.value(name());
+    const QString value = row.value(name());
 
     if (value.isEmpty()) {
         return true;

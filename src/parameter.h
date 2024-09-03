@@ -6,8 +6,12 @@
 #ifndef FSKEP_PARAMETER_H
 #define FSKEP_PARAMETER_H
 
+#include "fskep_globals.h"
+
 #include <QObject>
 #include <QVariant>
+
+using namespace Fskep;
 
 class Parameter : public QObject
 {
@@ -22,7 +26,7 @@ public:
 
     [[nodiscard]] bool isRequired() const noexcept;
 
-    [[nodiscard]] virtual bool check(const QMap<QString, QString> &data) const;
+    [[nodiscard]] virtual bool check(const Row &row) const;
 
 private:
     QString m_name;
