@@ -40,13 +40,12 @@ public:
 protected:
     [[nodiscard]] QCommandLineParser *parser() const;
     [[nodiscard]] QString listSeparator() const;
-    virtual void initParameters() = 0;
     [[nodiscard]] virtual Requirements requirements() const = 0;
     virtual void processData() = 0;
     [[nodiscard]] virtual QList<Parameter*> parameters() = 0;
 
-    [[nodiscard]] RowList rows() const noexcept;
-    [[nodiscard]] Headers headers() const noexcept;
+    RowList m_rows;
+    Headers m_headers;
 
 private slots:
     void doStart();
@@ -57,8 +56,6 @@ private:
     [[nodiscard]] bool readInputCsvFile();
     [[nodiscard]] bool checkData();
 
-    RowList m_rows;
-    Headers m_headers;
     QFileInfo m_inputFileInfo;
     QString m_inputFileMimeType;
     QString m_username;

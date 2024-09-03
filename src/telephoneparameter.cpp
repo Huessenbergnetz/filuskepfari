@@ -33,7 +33,7 @@ bool TelephoneParameter::check(const Row &row) const
     return true;
 }
 
-QVariant TelephoneParameter::getValue(const Row &row) const
+QString TelephoneParameter::getValue(const Row &row) const
 {
     QString _val = row.value(name());
     _val.replace('+'_L1, u"00"_s);

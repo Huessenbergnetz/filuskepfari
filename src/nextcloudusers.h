@@ -7,7 +7,12 @@
 #define FSKEP_NEXTCLOUDUSERS_H
 
 #include "service.h"
-#include "fskep_globals.h"
+
+#include <QNetworkRequest>
+#include <QUrl>
+
+class QNetworkReply;
+class QNetworkRequest;
 
 using namespace Fskep;
 
@@ -19,10 +24,24 @@ public:
     ~NextcloudUsers() override = default;
 
 protected:
-    void initParameters() override;
     [[nodiscard]] Requirements requirements() const override;
     void processData() override;
     QList<Parameter*> parameters() override;
+
+private:
+    void startCreateUser();
+    void prepareSettingUserData();
+    void startSetUserDetails();
+    [[nodiscard]] QUrl createUrl(const QString &path = {}) const;
+    [[nodiscard]] QNetworkRequest createRequest(const QUrl &url) const;
+
+    Row m_current;
+
+    QQueue<QString> m_userDetailKeys;
+
+private slots:
+    void onCreateUserFinished(QNetworkReply *reply);
+    void onSetUserDetailsFinished(QNetworkReply *reply);
 };
 
 #endif // FSKEP_NEXTCLOUDUSERS_H

@@ -153,7 +153,8 @@ Supported types: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="fskep_ncusers_param_desc_groups">
-        <source>Groups the account should be added to. (The group will be created if it does not exist.)</source>
+        <source>Groups the account should be added to.</source>
+        <oldsource>Groups the account should be added to. (The group will be created if it does not exist.)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message id="fksep_ncusers_param_desc_language">
@@ -186,6 +187,27 @@ Supported types: %2</source>
     </message>
     <message id="Parameter “%1” is not a valid phone number.">
         <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_msg_success_create_user">
+        <source>Successfully created new user “%1”</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_msg_err_create_user">
+        <source>Failed to create new user: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_msg_info_start_reate_user">
+        <source>Creating new user “%1”</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_msg_info_no_user_details">
+        <source>No additional user fields found. Skipping setting user details.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_msg_info_start_set_user_detail">
+        <source>Start setting “%1” for user “%2”
+</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

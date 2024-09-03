@@ -1,7 +1,7 @@
 #ifndef FSKEP_GLOBALS_H
 #define FSKEP_GLOBALS_H
 
-#include <QList>
+#include <QQueue>
 #include <QMap>
 #include <QString>
 
@@ -20,7 +20,7 @@ enum class ErrCode : int {
 
 using Headers = QStringList;
 using Row = QMap<QString,QString>;
-using RowList = QList<Row>;
+using RowList = QQueue<Row>;
 using DataPair = std::pair<QStringList, RowList>;
 
 }

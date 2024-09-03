@@ -39,7 +39,7 @@ bool Parameter::check(const Row &row) const
     return true;
 }
 
-QVariant Parameter::getValue(const Row &row) const
+QString Parameter::getValue(const Row &row) const
 {
     return row.value(m_name);
 }

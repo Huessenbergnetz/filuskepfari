@@ -39,16 +39,6 @@ QString Service::listSeparator() const
     return m_parser->value(u"list-separator"_s);
 }
 
-Headers Service::headers() const noexcept
-{
-    return m_headers;
-}
-
-RowList Service::rows() const noexcept
-{
-    return m_rows;
-}
-
 void Service::doStart()
 {
     if (!checkRequirements()) {
@@ -208,15 +198,21 @@ bool Service::checkData()
     }
 
     int line = 1;
+    RowList sanitizedList;
     for (const Row &row : std::as_const(m_rows)) {
+        Row sanitizedRow;
         for (const auto p : params) {
             if (!p->check(row)) {
                 qCritical().noquote() << qtTrId("Invalid data for column “%1” at line %2.").arg(p->name(), QString::number(line));
                 return false;
             }
+            sanitizedRow.insert(p->name(), p->getValue(row));
         }
         line++;
+        sanitizedList << sanitizedRow;
     }
+
+    m_rows = sanitizedList;
 
     return true;
 }
