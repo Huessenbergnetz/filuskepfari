@@ -18,6 +18,7 @@ enum class ErrCode : int {
     AppErr  = 5
 };
 
+using Headers = QStringList;
 using Row = QMap<QString,QString>;
 using RowList = QList<Row>;
 using DataPair = std::pair<QStringList, RowList>;

@@ -128,15 +128,63 @@ Supported types: %2</source>
         <source>Display name for the new user. Can conain any character.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message id="fskep_ncurses_param_desc_email">
-        <source>When set, users may register using the default email verification workflow.</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="Parameter “%1” does not match regular expression pattern “%2”">
         <source></source>
         <translation type="unfinished"></translation>
     </message>
     <message id="Parameter “%1“ is not a valid email address.">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_cli_opt_listsep_desc">
+        <source>Separator for lists.</source>
+        <oldsource>Separator for lists.
+</oldsource>
+        <extracomment>CLI option description</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_cli_opt_listsep_va">
+        <source>separator</source>
+        <extracomment>CLI option value name</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_param_desc_email">
+        <source>When set, users may register using the default email verification workflow.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_param_desc_groups">
+        <source>Groups the account should be added to. (The group will be created if it does not exist.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fksep_ncusers_param_desc_language">
+        <source>Language of the user.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_param_desc_password">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_param_desc_addemail">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_param_desc_phone">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_param_desc_address">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_param_desc_organisation">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_param_desc_role">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="Parameter “%1” is not a valid phone number.">
         <source></source>
         <translation type="unfinished"></translation>
     </message>

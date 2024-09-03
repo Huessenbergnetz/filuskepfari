@@ -21,7 +21,7 @@ public:
 protected:
     void initParameters() override;
     [[nodiscard]] Requirements requirements() const override;
-    void processData(const DataPair &data) override;
+    void processData() override;
     QList<Parameter*> parameters() override;
 };
 

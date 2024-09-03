@@ -34,23 +34,37 @@ void Service::start()
     QTimer::singleShot(0, this, &Service::doStart);
 }
 
+QString Service::listSeparator() const
+{
+    return m_parser->value(u"list-separator"_s);
+}
+
+Headers Service::headers() const noexcept
+{
+    return m_headers;
+}
+
+RowList Service::rows() const noexcept
+{
+    return m_rows;
+}
+
 void Service::doStart()
 {
     if (!checkRequirements()) {
         return;
     }
 
-    const DataPair data = readInputFile();
-    if (data.first.isEmpty()) {
+    if (!readInputFile()) {
         return;
     }
 
-    if (!checkData(data)) {
+    if (!checkData()) {
         QCoreApplication::exit(static_cast<int>(ErrCode::DataErr));
         return;
     }
 
-    processData(data);
+    processData();
 }
 
 bool Service::checkRequirements()
@@ -134,21 +148,16 @@ QCommandLineParser* Service::parser() const
     return m_parser;
 }
 
-QString Service::listSeparator() const
-{
-    return m_parser->value(u"list-separator"_s);
-}
-
-std::pair<QStringList,QList<QMap<QString,QString>>> Service::readInputFile() const
+bool Service::readInputFile()
 {
     if (m_inputFileMimeType == "text/csv"_L1) {
         return readInputCsvFile();
     }
 
-    return {};
+    return false;
 }
 
-std::pair<QStringList,QList<QMap<QString,QString>>> Service::readInputCsvFile() const
+bool Service::readInputCsvFile()
 {
     QFile f{m_inputFileInfo.absoluteFilePath()};
 
@@ -159,54 +168,47 @@ std::pair<QStringList,QList<QMap<QString,QString>>> Service::readInputCsvFile() 
         return {};
     }
 
-    QStringList headers;
-    QList<QMap<QString,QString>> rows;
-
     QTextStream stream(&f);
     int row = 0;
     while (!stream.atEnd()) {
         const QString line = stream.readLine();
         const QStringList data = line.split(QLatin1Char(','));
         if (row == 0) {
-            headers = data;
+            m_headers = data;
         } else {
-            if (headers.size() != data.size()) {
+            if (m_headers.size() != data.size()) {
                 //% "Data at line %1 has not the same columnt count as the number of header fields. "
                 //% "Expected: %2, Actual: %3"
-                qCritical().noquote() << qtTrId("fskep_err_data_row_size_mismatch").arg(QString::number(row + 1), QString::number(headers.size()), QString::number(data.size()));
+                qCritical().noquote() << qtTrId("fskep_err_data_row_size_mismatch").arg(QString::number(row + 1), QString::number(m_headers.size()), QString::number(data.size()));
                 QCoreApplication::exit(static_cast<int>(ErrCode::DataErr));
-                return {};
+                return false;
             }
 
             QMap<QString,QString> rowData;
-            for (int col = 0; col < headers.size(); ++col) {
-                rowData.insert(headers.at(col), data.at(col));
+            for (int col = 0; col < m_headers.size(); ++col) {
+                rowData.insert(m_headers.at(col), data.at(col));
             }
-            rows << rowData;
+            m_rows << rowData;
         }
         row++;
     }
 
-    return std::make_pair(headers, rows);
+    return true;
 }
 
-bool Service::checkData(const DataPair &data)
+bool Service::checkData()
 {
     const QList<Parameter*> params = parameters();
 
-    const QStringList headers = data.first;
-
     for (const auto p : params) {
-        if (p->isRequired() && !headers.contains(p->name())) {
+        if (p->isRequired() && !m_headers.contains(p->name())) {
             qCritical().noquote() << qtTrId("Required parameter “%1” is not available in the header data.").arg(p->name());
             return false;
         }
     }
 
-    const RowList rows = data.second;
-
     int line = 1;
-    for (const Row &row : rows) {
+    for (const Row &row : std::as_const(m_rows)) {
         for (const auto p : params) {
             if (!p->check(row)) {
                 qCritical().noquote() << qtTrId("Invalid data for column “%1” at line %2.").arg(p->name(), QString::number(line));

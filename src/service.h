@@ -42,18 +42,23 @@ protected:
     [[nodiscard]] QString listSeparator() const;
     virtual void initParameters() = 0;
     [[nodiscard]] virtual Requirements requirements() const = 0;
-    virtual void processData(const DataPair &data) = 0;
+    virtual void processData() = 0;
     [[nodiscard]] virtual QList<Parameter*> parameters() = 0;
+
+    [[nodiscard]] RowList rows() const noexcept;
+    [[nodiscard]] Headers headers() const noexcept;
 
 private slots:
     void doStart();
 
 private:
     bool checkRequirements();
-    [[nodiscard]] DataPair readInputFile() const;
-    [[nodiscard]] DataPair readInputCsvFile() const;
-    [[nodiscard]] bool checkData(const DataPair &data);
+    [[nodiscard]] bool readInputFile();
+    [[nodiscard]] bool readInputCsvFile();
+    [[nodiscard]] bool checkData();
 
+    RowList m_rows;
+    Headers m_headers;
     QFileInfo m_inputFileInfo;
     QString m_inputFileMimeType;
     QString m_username;

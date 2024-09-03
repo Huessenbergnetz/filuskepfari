@@ -30,11 +30,16 @@ bool Parameter::isRequired() const noexcept
     return m_isRequired;
 }
 
-bool Parameter::check(const Row &data) const
+bool Parameter::check(const Row &row) const
 {
-    if (m_isRequired && data.value(m_name).isEmpty()) {
+    if (m_isRequired && row.value(m_name).isEmpty()) {
         return false;
     }
 
     return true;
+}
+
+QVariant Parameter::getValue(const Row &row) const
+{
+    return row.value(m_name);
 }

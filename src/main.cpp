@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 
     QCommandLineOption listSepOpt(QStringList{u"l"_s, u"list-separator"_s},
                                   //: CLI option description
-                                  //% "Separator for lists.
+                                  //% "Separator for lists."
                                   qtTrId("fskep_cli_opt_listsep_desc"),
                                   //: CLI option value name
                                   //% "separator"

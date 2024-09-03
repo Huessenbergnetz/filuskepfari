@@ -8,6 +8,11 @@
 #include <QDebug>
 #include <QRegularExpression>
 
+StringParameter::StringParameter(const QString &name, QString description, bool isRequired, QObject *parent)
+    : Parameter{name, description, isRequired, parent}
+{
+}
+
 StringParameter::StringParameter(const QString &name, QString description, bool isRequired, const QString &pattern, QObject *parent)
     : Parameter{name, description, isRequired, parent}
 {

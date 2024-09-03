@@ -28,6 +28,8 @@ public:
 
     [[nodiscard]] virtual bool check(const Row &row) const;
 
+    [[nodiscard]] virtual QVariant getValue(const Row &row) const;
+
 private:
     QString m_name;
     QString m_description;

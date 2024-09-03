@@ -16,6 +16,7 @@ class StringParameter : public Parameter
 {
     Q_OBJECT
 public:
+    StringParameter(const QString &name, QString description, bool isRequired, QObject *parent = nullptr);
     StringParameter(const QString &name, QString description, bool isRequired, const QString &pattern = {}, QObject *parent = nullptr);
     ~StringParameter() override = default;
 
