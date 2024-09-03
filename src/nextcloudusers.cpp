@@ -154,7 +154,7 @@ void NextcloudUsers::startSetUserDetails()
 
     auto nam = new QNetworkAccessManager(this);
     connect(nam, &QNetworkAccessManager::finished, this, &NextcloudUsers::onCreateUserFinished);
-    nam->post(req, QByteArray());
+    nam->put(req, QByteArray());
 }
 
 void NextcloudUsers::onSetUserDetailsFinished(QNetworkReply *reply)
