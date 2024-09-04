@@ -8,11 +8,14 @@
 
 #include "service.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QNetworkRequest>
 #include <QUrl>
 
 class QNetworkReply;
 class QNetworkRequest;
+class QJsonParseError;
 
 using namespace Fskep;
 
@@ -34,6 +37,8 @@ private:
     void startSetUserDetails();
     [[nodiscard]] QUrl createUrl(const QString &path = {}) const;
     [[nodiscard]] QNetworkRequest createRequest(const QUrl &url) const;
+    [[nodiscard]] QJsonDocument parseJsonReply(const QByteArray &data) const;
+    [[nodiscard]] QJsonObject checkOcsObject(const QJsonDocument &json, bool *ok) const;
 
     Row m_current;
 

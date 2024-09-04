@@ -12,9 +12,6 @@
 
 #include <QCommandLineParser>
 #include <QDebug>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
 #include <QJsonParseError>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -52,6 +49,7 @@ void NextcloudUsers::startCreateUser()
 
     //% "Creating new user “%1”"
     qInfo().noquote() << qtTrId("fskep_ncusers_msg_info_start_reate_user").arg(m_current.value(u"userid"_s));
+    qDebug() << "Current user data:" << m_current;
 
     QUrlQuery query;
     for (const QString &p : {u"userid"_s, u"displayname"_s, u"email"_s, u"groups"_s, u"language"_s, u"password"_s}) {
@@ -85,24 +83,20 @@ void NextcloudUsers::onCreateUserFinished(QNetworkReply *reply)
         reply->manager()->deleteLater();
         reply->deleteLater();
 
-        QJsonParseError jpe;
-        const QJsonDocument json = QJsonDocument::fromJson(jsonReply, &jpe);
-        if (jpe.error != QJsonParseError::NoError) {
-            qCritical() << jpe.errorString();
-            QCoreApplication::exit(static_cast<int>(ErrCode::AppErr));
+        const QJsonDocument json = parseJsonReply(jsonReply);
+        if (json.isEmpty()) {
             return;
         }
 
-        const auto ocs = json.object().value("ocs"_L1).toObject();
-        const auto meta = ocs.value("meta"_L1).toObject();
-        if (meta.value("status"_L1).toString() == "ok"_L1) {
-            const auto data = ocs.value("data"_L1).toObject();
+        bool ok = false;
+        const QJsonObject o = checkOcsObject(json, &ok);
+        if (ok) {
             //% "Successfully created new user “%1”"
-            qInfo().noquote() << qtTrId("fskep_ncusers_msg_success_create_user").arg(data.value("id"_L1).toString());
+            qInfo().noquote() << qtTrId("fskep_ncusers_msg_success_create_user").arg(o.value("id"_L1).toString());
             prepareSettingUserData();
         } else {
             //% "Failed to create new user: %1"
-            qCritical().noquote() << qtTrId("fskep_ncusers_msg_err_create_user").arg(meta.value("message"_L1).toString());
+            qCritical().noquote() << qtTrId("fskep_ncusers_msg_err_create_user").arg(o.value("message"_L1).toString());
             QCoreApplication::exit(static_cast<int>(ErrCode::DataErr));
         }
     } else {
@@ -114,12 +108,14 @@ void NextcloudUsers::onCreateUserFinished(QNetworkReply *reply)
 void NextcloudUsers::prepareSettingUserData()
 {
     m_userDetailKeys.clear();
-    for (const QString &key : {u"additional_email"_s, u"phone"_s, u"address"_s, u"website"_s, u"twitter"_s, u"fediverse"_s,
+    for (const QString &key : {u"additional_mail"_s, u"phone"_s, u"address"_s, u"website"_s, u"twitter"_s, u"fediverse"_s,
          u"organisation"_s, u"role"_s, u"headline"_s, u"biography"_s, u"profile_enabled"_s}) {
         if (m_current.contains(key)) {
             m_userDetailKeys.enqueue(key);
         }
     }
+
+    qDebug() << "User data fields to create:" << m_userDetailKeys;
 
     if (m_userDetailKeys.empty()) {
         //% "No additional user fields found. Skipping setting user details."
@@ -140,7 +136,7 @@ void NextcloudUsers::startSetUserDetails()
     const QString key = m_userDetailKeys.dequeue();
     const QString uid = m_current.value(u"userid"_s);
 
-    //% "Start setting “%1” for user “%2”
+    //% "Start setting “%1” for user “%2”"
     qInfo().noquote() << qtTrId("fskep_ncusers_msg_info_start_set_user_detail").arg(key, uid);
 
     QUrlQuery query;
@@ -153,7 +149,7 @@ void NextcloudUsers::startSetUserDetails()
     const auto req = createRequest(url);
 
     auto nam = new QNetworkAccessManager(this);
-    connect(nam, &QNetworkAccessManager::finished, this, &NextcloudUsers::onCreateUserFinished);
+    connect(nam, &QNetworkAccessManager::finished, this, &NextcloudUsers::onSetUserDetailsFinished);
     nam->put(req, QByteArray());
 }
 
@@ -163,12 +159,22 @@ void NextcloudUsers::onSetUserDetailsFinished(QNetworkReply *reply)
         const QByteArray jsonReply = reply->readAll();
         reply->manager()->deleteLater();
         reply->deleteLater();
-        qDebug() << jsonReply;
-        startSetUserDetails();
+
+        const QJsonDocument json = parseJsonReply(jsonReply);
+        if (json.isEmpty()) {
+            return;
+        }
+
+        bool ok = false;
+        const QJsonObject o = checkOcsObject(json, &ok);
+        if (!ok) {
+            //% "Failed to set user details data: %1"
+            qWarning().noquote() << qtTrId("fskep_ncusers_msg_err_set_user_details").arg(o.value("message"_L1).toString());
+        }
     } else {
-        qCritical() << reply->errorString();
-        QCoreApplication::exit(static_cast<int>(ErrCode::ConnErr));
+        qWarning().noquote() << qtTrId("fskep_ncusers_msg_err_set_user_details").arg(reply->errorString());
     }
+    startSetUserDetails();
 }
 
 QList<Parameter*> NextcloudUsers::parameters()
@@ -220,6 +226,32 @@ QNetworkRequest NextcloudUsers::createRequest(const QUrl &url) const
     req.setRawHeader("Authorization"_ba, authHeader);
 
     return req;
+}
+
+QJsonDocument NextcloudUsers::parseJsonReply(const QByteArray &data) const
+{
+    QJsonParseError jpe;
+    const QJsonDocument json = QJsonDocument::fromJson(data, &jpe);
+    if (jpe.error != QJsonParseError::NoError) {
+        qCritical() << jpe.errorString();
+        QCoreApplication::exit(static_cast<int>(ErrCode::AppErr));
+        return {};
+    }
+
+    return json;
+}
+
+QJsonObject NextcloudUsers::checkOcsObject(const QJsonDocument &json, bool *ok) const
+{
+    const auto ocs = json.object().value("ocs"_L1).toObject();
+    const auto meta = ocs.value("meta"_L1).toObject();
+    if (meta.value("status"_L1).toString() == "ok"_L1) {
+        *ok = true;
+        return ocs.value("data"_L1).toObject();
+    } else {
+        *ok = false;
+        return meta;
+    }
 }
 
 #include "moc_nextcloudusers.cpp"

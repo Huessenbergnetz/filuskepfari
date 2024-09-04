@@ -206,8 +206,13 @@ Supported types: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="fskep_ncusers_msg_info_start_set_user_detail">
-        <source>Start setting “%1” for user “%2”
-</source>
+        <source>Start setting “%1” for user “%2”</source>
+        <oldsource>Start setting “%1” for user “%2”
+</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_msg_err_set_user_details">
+        <source>Failed to set user details data: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
