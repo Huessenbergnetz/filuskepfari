@@ -215,5 +215,29 @@ Supported types: %2</source>
         <source>Parameter “%1” is not a valid URL.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="fskep_ncusers_param_desc_website">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_param_desc_fediverse">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_param_desc_headline">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fksep_ncusers_param_desc_biography">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_ncusers_param_desc_profile_enabled">
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_err_data_rad_failed">
+        <source>Failed to read CSV input data.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

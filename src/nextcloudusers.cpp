@@ -56,13 +56,15 @@ void NextcloudUsers::startCreateUser()
     for (const QString &p : {u"userid"_s, u"displayname"_s, u"email"_s, u"groups"_s, u"language"_s, u"password"_s}) {
         const QString val = m_current.value(p);
         if (!val.isEmpty()) {
-            if (p != "groups"_L1) {
-                query.addQueryItem(p, val);
-            } else {
+            if (p == "displayname"_L1) {
+                query.addQueryItem(u"displayName"_s, val);
+            } else if (p == "groups"_L1) {
                 const auto groups = val.split(listSeparator(), Qt::SkipEmptyParts);
                 for (const QString &g : groups) {
                     query.addQueryItem(u"groups[]"_s, g);
                 }
+            } else {
+                query.addQueryItem(p, val);
             }
         }
     }
