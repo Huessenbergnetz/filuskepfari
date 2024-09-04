@@ -34,7 +34,8 @@ bool StringParameter::check(const Row &row) const
     }
 
     if (regex && !regex->match(value).hasMatch()) {
-        qCritical().noquote() << qtTrId("Parameter “%1” does not match regular expression pattern “%2”").arg(name(), regex->pattern());
+        //% "Parameter “%1” does not match regular expression pattern “%2”."
+        qCritical().noquote() << qtTrId("fskep_stringparameter_check_failed_regex").arg(value, regex->pattern());
         return false;
     }
 

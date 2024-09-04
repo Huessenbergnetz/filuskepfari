@@ -26,7 +26,8 @@ bool TelephoneParameter::check(const Row &row) const
     }
 
     if (!regex.match(value).hasMatch()) {
-        qCritical().noquote() << qtTrId("Parameter “%1” is not a valid phone number.").arg(value);
+        //% "Parameter “%1” is not a valid phone number."
+        qCritical().noquote() << qtTrId("fskep_telephoneparameter_check_faild_invalid_phone").arg(value);
         return false;
     }
 

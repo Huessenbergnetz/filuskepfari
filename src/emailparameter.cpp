@@ -28,7 +28,8 @@ bool EmailParameter::check(const Row &row) const
     }
 
     if (!regex.match(value).hasMatch()) {
-        qCritical().noquote() << qtTrId("Parameter “%1“ is not a valid email address.").arg(value);
+        //% "Parameter “%1“ is not a valid email address."
+        qCritical().noquote() << qtTrId("fskep_telephoneparameter_check_faild_invalid_phone").arg(value);
         return false;
     }
 
