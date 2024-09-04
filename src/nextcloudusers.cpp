@@ -9,6 +9,7 @@
 #include "fskep_globals.h"
 #include "stringparameter.h"
 #include "telephoneparameter.h"
+#include "urlparameter.h"
 
 #include <QCommandLineParser>
 #include <QDebug>
@@ -195,7 +196,12 @@ QList<Parameter*> NextcloudUsers::parameters()
         new TelephoneParameter{u"phone"_s, qtTrId("fskep_ncusers_param_desc_phone"), false, this},
         new StringParameter{u"address"_s, qtTrId("fskep_ncusers_param_desc_address"), false, this},
         new StringParameter{u"organisation"_s, qtTrId("fskep_ncusers_param_desc_organisation"), false, this},
-        new StringParameter{u"role"_s, qtTrId("fskep_ncusers_param_desc_role"), false, this}
+        new StringParameter{u"role"_s, qtTrId("fskep_ncusers_param_desc_role"), false, this},
+        new UrlParameter{u"website"_s, qtTrId("fskep_ncusers_param_desc_website"), false, this},
+        new StringParameter{u"fediverse"_s, qtTrId("fskep_ncusers_param_desc_fediverse"), false, this},
+        new StringParameter{u"headline"_s, qtTrId("fskep_ncusers_param_desc_headline"), false, this},
+        new StringParameter{u"biography"_s, qtTrId("fksep_ncusers_param_desc_biography"), false, this},
+        new StringParameter{u"profile_enabled"_s, qtTrId("fskep_ncusers_param_desc_profile_enabled"), false, this}
     };
 }
 
