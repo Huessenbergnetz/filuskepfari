@@ -206,7 +206,10 @@ bool Service::checkData()
                 qCritical().noquote() << qtTrId("Invalid data for column “%1” at line %2.").arg(p->name(), QString::number(line));
                 return false;
             }
-            sanitizedRow.insert(p->name(), p->getValue(row));
+            const QString value = p->getValue(row);
+            if (!value.isEmpty()) {
+                sanitizedRow.insert(p->name(), value);
+            }
         }
         line++;
         sanitizedList << sanitizedRow;
