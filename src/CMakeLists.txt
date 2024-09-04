@@ -19,6 +19,8 @@ target_sources(filuskepfari
         emailparameter.h
         telephoneparameter.cpp
         telephoneparameter.h
+        urlparameter.cpp
+        urlparameter.h
 )
 
 target_link_libraries(filuskepfari
