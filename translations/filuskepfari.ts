@@ -128,14 +128,6 @@ Supported types: %2</source>
         <source>Display name for the new user. Can conain any character.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message id="Parameter “%1” does not match regular expression pattern “%2”">
-        <source></source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message id="Parameter “%1“ is not a valid email address.">
-        <source></source>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="fskep_cli_opt_listsep_desc">
         <source>Separator for lists.</source>
         <oldsource>Separator for lists.
@@ -185,10 +177,6 @@ Supported types: %2</source>
         <source></source>
         <translation type="unfinished"></translation>
     </message>
-    <message id="Parameter “%1” is not a valid phone number.">
-        <source></source>
-        <translation type="unfinished"></translation>
-    </message>
     <message id="fskep_ncusers_msg_success_create_user">
         <source>Successfully created new user “%1”</source>
         <translation type="unfinished"></translation>
@@ -213,6 +201,18 @@ Supported types: %2</source>
     </message>
     <message id="fskep_ncusers_msg_err_set_user_details">
         <source>Failed to set user details data: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_stringparameter_check_failed_regex">
+        <source>Parameter “%1” does not match regular expression pattern “%2”.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_telephoneparameter_check_faild_invalid_phone">
+        <source>Parameter “%1“ is not a valid email address.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="fskep_urlparameter_check_faild_invalid_url">
+        <source>Parameter “%1” is not a valid URL.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
