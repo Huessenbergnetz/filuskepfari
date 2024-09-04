@@ -46,3 +46,6 @@ endif (CMAKE_VERSION VERSION_GREATER_EQUAL 3.20.0)
 
 add_subdirectory(src)
 add_subdirectory(translations)
+
+set(STATIC_LIB ON)
+add_subdirectory(3rdparty/qtcsv)

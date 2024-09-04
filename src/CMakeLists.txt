@@ -27,12 +27,13 @@ target_link_libraries(filuskepfari
     PRIVATE
         Qt${QT_VERSION_MAJOR}::Core
         Qt${QT_VERSION_MAJOR}::Network
+        qtcsv
 )
 
 target_compile_definitions(filuskepfari
     PRIVATE
         QT_NO_CAST_TO_ASCII
-        QT_NO_CAST_FROM_ASCII
+        # QT_NO_CAST_FROM_ASCII
         QT_STRICT_ITERATORS
         QT_NO_URL_CAST_FROM_STRING
         QT_NO_CAST_FROM_BYTEARRAY

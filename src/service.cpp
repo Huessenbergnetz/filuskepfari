@@ -6,6 +6,7 @@
 #include "service.h"
 
 #include "parameter.h"
+#include "qtcsv/reader.h"
 
 #include <QCommandLineParser>
 #include <QCoreApplication>
@@ -155,32 +156,37 @@ bool Service::readInputCsvFile()
         //% "Failed to open input file: %1"
         qCritical().noquote() << qtTrId("fskep_err_open_file").arg(f.errorString());
         QCoreApplication::exit(static_cast<int>(ErrCode::DataErr));
-        return {};
+        return false;
     }
 
-    QTextStream stream(&f);
-    int row = 0;
-    while (!stream.atEnd()) {
-        const QString line = stream.readLine();
-        const QStringList data = line.split(QLatin1Char(','));
-        if (row == 0) {
-            m_headers = data;
+    const QList<QList<QString>> csv = QtCSV::Reader::readToList(f);
+
+    if (csv.isEmpty()) {
+        //% "Failed to read CSV input data."
+        qCritical().noquote() << qtTrId("fskep_err_data_rad_failed");
+        return false;
+    }
+
+    int line = 1;
+    for (const QList<QString> &row : csv) {
+        if (line == 1) {
+            m_headers = row;
         } else {
-            if (m_headers.size() != data.size()) {
+            if (m_headers.size() != row.size()) {
                 //% "Data at line %1 has not the same columnt count as the number of header fields. "
                 //% "Expected: %2, Actual: %3"
-                qCritical().noquote() << qtTrId("fskep_err_data_row_size_mismatch").arg(QString::number(row + 1), QString::number(m_headers.size()), QString::number(data.size()));
+                qCritical().noquote() << qtTrId("fskep_err_data_row_size_mismatch").arg(QString::number(line), QString::number(m_headers.size()), QString::number(row.size()));
                 QCoreApplication::exit(static_cast<int>(ErrCode::DataErr));
                 return false;
             }
 
-            QMap<QString,QString> rowData;
-            for (int col = 0; col < m_headers.size(); ++col) {
-                rowData.insert(m_headers.at(col), data.at(col));
+            Row data;
+            for (qsizetype col = 0; col < m_headers.size(); ++col) {
+                data.insert(m_headers.at(col), row.at(col));
             }
-            m_rows << rowData;
+            m_rows << data;
         }
-        row++;
+        line++;
     }
 
     return true;
