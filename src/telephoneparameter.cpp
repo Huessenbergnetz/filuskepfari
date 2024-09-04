@@ -34,14 +34,6 @@ bool TelephoneParameter::check(const Row &row) const
     return true;
 }
 
-QString TelephoneParameter::getValue(const Row &row) const
-{
-    QString _val = row.value(name());
-    _val.replace('+'_L1, u"00"_s);
-    _val.remove(QRegularExpression(uR"-([\s\(\)\/-])-"_s));
-    return _val;
-}
-
 void TelephoneParameter::init()
 {
     // regex.setPattern(uR"-((?:([+]\d{1,4})[-.\s]?)?(?:[(](\d{1,3})[)][-.\s]?)?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,9}))-"_s);

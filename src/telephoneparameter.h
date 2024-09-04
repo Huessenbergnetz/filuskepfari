@@ -22,8 +22,6 @@ public:
 
     [[nodiscard]] bool check(const Row &row) const override;
 
-    [[nodiscard]] QString getValue(const Row &row) const override;
-
 private:
     QRegularExpression regex;
 
